@@ -1,0 +1,16 @@
+#!/bin/bash
+# Flexget daemon autostart
+
+description "Flexget daemon"
+author "Kempe"
+
+start on (filesystem and networking) or runlevel [2345]
+stop on runlevel [016]
+
+respawn
+respawn limit 5 30
+
+env uid=1000
+env gid=1000
+
+exec start-stop-daemon -S -c $uid:$gid -x /usr/local/bin/flexget -- daemon start
