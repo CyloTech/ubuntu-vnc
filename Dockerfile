@@ -76,11 +76,16 @@ ADD passwd /root/.vnc/passwd
 ADD configure.sh /root/configure.sh
 ADD sshd_config /sshd_config
 ADD flexget-config.yml /root/.config/flexget/config.yml
-ADD supervisor /root/supervisor
+
+ADD supervisord.conf /etc/supervisord.conf
 
 RUN chmod +x /root/configure.sh
 RUN chmod 600 /root/.vnc/passwd
 
-WORKDIR /root
+RUN rm -fr /rclone*
+
+WORKDIR /
+
+EXPOSE 22 5901
 
 CMD ["/root/configure.sh"]
