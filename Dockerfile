@@ -73,13 +73,13 @@ RUN sh -c 'echo "deb http://www.bunkus.org/ubuntu/zesty/ ./" >> /etc/apt/sources
 
 ADD xstartup /root/.vnc/xstartup
 ADD passwd /root/.vnc/passwd
-ADD configure.sh /root/configure.sh
+ADD configure.sh /etc/configure.sh
 ADD sshd_config /sshd_config
 ADD flexget-config.yml /root/.config/flexget/config.yml
 
 ADD supervisord.conf /etc/supervisord.conf
 
-RUN chmod +x /root/configure.sh
+RUN chmod +x /etc/configure.sh
 RUN chmod 600 /root/.vnc/passwd
 
 RUN rm -fr /rclone*
@@ -88,4 +88,4 @@ WORKDIR /
 
 EXPOSE 22 5901
 
-CMD ["/root/configure.sh"]
+CMD ["/etc/configure.sh"]

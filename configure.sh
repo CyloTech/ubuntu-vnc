@@ -32,24 +32,14 @@ stderr_logfile=/dev/stderr
 stderr_logfile_maxbytes=0
 EOF
 
-cat << EOF >> /etc/supervisor/conf.d/vncserver.conf
-[program:vncserver]
-command=/usr/bin/vncserver :1 -geometry 1280x800 -depth 24; tail -f /root/.vnc/*:1.log
-autostart=true
-autorestart=true
-priority=10
-stdout_events_enabled=true
-stderr_events_enabled=true
-stdout_logfile=/dev/stdout
-stdout_logfile_maxbytes=0
-stderr_logfile=/dev/stderr
-stderr_logfile_maxbytes=0
-EOF
+    touch /root/.gtk-bookmarks
 
     #Tell Apex we're done installing.
     curl -i -H "Accept: application/json" -H "Content-Type:application/json" -X POST "https://api.cylo.io/v1/apps/installed/$INSTANCE_ID"
     touch /etc/app_configured
 fi
 
-# Start supervisord and services
-exec /usr/bin/supervisord -n -c /etc/supervisord.conf
+
+/usr/bin/supervisord
+/usr/bin/vncserver :1 -geometry 1280x800 -depth 24
+tail -f /root/.vnc/*:1.log
